@@ -208,7 +208,7 @@ def construct_deposits(fi_type, profile, summary, records, top_sources, cd, rati
             "creditMinMaxRatio": ratio,
             "peekHourCount": hour_range
         },
-        "wealthScore":  int(score if score > 100 else 100)
+        "wealthScore": int(score if score > 100 else 100)
     }
 
 
@@ -356,7 +356,7 @@ def construct_bonds(fi_type, data_story, profile, summary, records, credit_statu
 
 
 def PPF(data):
-    records = None
+    records = []
     top_sources = None
     top3_hourRange = None
     profile = None
@@ -367,7 +367,7 @@ def PPF(data):
         profile = data['profile']['holders']
     if data['summary'] is not None:
         summary = data['summary']
-    if data['transactions'] is not None:
+    if data['transactions'] is not None and len(data['transactions']['transaction']) > 0:
         df = getTransactions(data['transactions']['transaction'])
         str_time = getTime(data['transactions']['startDate'])
         end_time = getTime(data['transactions']['endDate'])
@@ -427,7 +427,7 @@ def construct_ppf(fi_type, profile, summary, records, top_sources, frequent_depo
 
 
 def EPF(data):
-    records = None
+    records = []
     top_sources = None
     next_25_years_estimation = None
     profile = None
@@ -437,7 +437,7 @@ def EPF(data):
         profile = data['profile']['holders']['holder']
     if data['summary'] is not None:
         summary = data['summary']
-    if data['transactions'] is not None:
+    if data['transactions'] is not None and len(data['transactions']['transaction']) > 0:
         df = getTransactions(data['transactions']['transaction'])
         df['txnDate'] = pd.to_datetime(df['txnDate'])
         df['txnDate'] = df['txnDate'].dt.tz_localize(None)
